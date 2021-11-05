@@ -12,7 +12,7 @@ int main()
 	switch (input)
 	{
 	case 1:
-		exercise();
+		exercise(); //Binaer und Maximal und Minimal Grauwert Pixel
 		break;
 	case 2:
 		exercise2();

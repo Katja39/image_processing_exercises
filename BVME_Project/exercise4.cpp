@@ -80,5 +80,30 @@ void exercise4() {
 	}
 	imageRoseLowPassFilterGauss.showImage();
 	imageRoseLowPassFilterGauss = imageRoseLowPassFilterGauss.FourierTransformation(true);
-	imageRoseLowPassFilterGauss.showImage("Gauﬂscher Hochpassfilter");
+	imageRoseLowPassFilterGauss.showImage("Gauﬂscher Tiefpassfilter");
+
+
+	//Gauﬂ Hochpassfilter
+	CImage imageRoseHighPassFilterGauss = image_grey;
+	imageRoseHighPassFilterGauss = image_grey.FourierTransformation(false);
+	d = 0.0;
+	h = 0.0;
+
+	for (int x = 0; x < m; x++)
+	{
+		for (int y = 0; y < n; y++)
+		{
+			d = pow(x - m / 2, 2) + pow(y - n / 2, 2);
+			h = 2 - exp(-d / (2 * pow(radius, 2))); //1- = Kantenbild, 2- = gesch‰rftes Bild
+			value = imageRoseHighPassFilterGauss.getComplexPointValue(x, y);
+			real = value.real();
+			imag = value.imag();
+			value.real(real * h);
+			value.imag(imag * h);
+			imageRoseHighPassFilterGauss.setComplexPointValue(x, y, value);
+		}
+	}
+	imageRoseHighPassFilterGauss.showImage();
+	imageRoseHighPassFilterGauss = imageRoseHighPassFilterGauss.FourierTransformation(true);
+	imageRoseHighPassFilterGauss.showImage("Gauﬂscher Hochpassfilter");
 }
