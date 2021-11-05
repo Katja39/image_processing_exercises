@@ -1,6 +1,7 @@
 #include "exercise1.h"
 #include "exercise2.h"
 #include "exercise3.h"
+#include "exercise4.h"
 #include <iostream>
 
 int main()
@@ -18,6 +19,9 @@ int main()
 		break;
 	case 3:
 		exercise3();
+		break;
+	case 4:
+		exercise4();
 		break;
 	}
 	std::cin >> input;
