@@ -5,12 +5,12 @@
 using namespace bvme;
 
 void exercise() {
-	CImage imageRose("Images/rose.bmp");
-	CImage imageGrau("Images/rose.bmp");
-	CImage imageBinaer("Images/rose.bmp");
-	CImage imagePixel("Images/rose.bmp");
+	CImage imageRose("Images/rose.bmp");   //original image
+	CImage imageGrau("Images/rose.bmp");   //gray value image
+	CImage imageBinaer("Images/rose.bmp"); //binary image
+	CImage imagePixel("Images/rose.bmp");  //max and min gray value marked
 
-	imageRose.showImage();
+	imageRose.showImage(); 
 
 	int red;
 	int green;
@@ -20,7 +20,7 @@ void exercise() {
 	int imageHeight = imageRose.getHeight();
 	int imageWidth = imageRose.getWidth();
 
-	//Grauwertbild
+	//gray value image
 
 	int greyvalue=0;
 
@@ -31,7 +31,7 @@ void exercise() {
 			red=imageRose.getPointValue(i, n).getRed();
 			green=imageRose.getPointValue(i, n).getGreen();
 			blue= imageRose.getPointValue(i, n).getBlue();
-			greyvalue = (red + green + blue) / 3;
+			greyvalue = (red + green + blue) / 3; //Calculate average value to determine gray value
 
 			tmpPoint.setRed(greyvalue);
 			tmpPoint.setGreen(greyvalue);
@@ -43,7 +43,7 @@ void exercise() {
 
 	imageGrau.showImage();
 
-	//Binaerbild
+	//binary image
 	int t = 150;
 
 	for (int i = 0; i < imageHeight; i++)
@@ -70,13 +70,14 @@ void exercise() {
 	}
 	imageBinaer.showImage();
 
-	//Maximal und Minimal Grauwert Pixel
+	//Maximum and minimum gray value pixel
 
-	int max=0;
-	int maxX = 0;
+	int max  = 0;
+	int maxX = 0;//x,y values of the max gray value
 	int maxY = 0;
-	int min=255;
-	int minX = 0;
+
+	int min	 = 255;
+	int minX = 0;//x,y values of the min gray value
 	int minY = 0;
 
 	tmpPoint.setBlue(0);
@@ -106,19 +107,15 @@ void exercise() {
 		}
 	}
 
-	for (int i = 0; i < 5; i++)
-	{
-		imagePixel.setPointValue(maxX, maxY + i, tmpPoint);
-		imagePixel.setPointValue(minX, minY + i, tmpPoint);
-
 		imagePixel.setPointValue(maxX, maxY, tmpPoint);
+		imagePixel.setPointValue(maxX + 1, maxY, tmpPoint);
+		imagePixel.setPointValue(maxX + 1, maxY + 1, tmpPoint);
+		imagePixel.setPointValue(maxX, maxY + 1, tmpPoint);
+
 		imagePixel.setPointValue(minX, minY, tmpPoint);
-
-		imagePixel.setPointValue(maxX+i, maxY, tmpPoint);
-		imagePixel.setPointValue(minX+i, minY, tmpPoint);
-
-		imagePixel.setPointValue(maxX+i, maxY + i, tmpPoint);
-		imagePixel.setPointValue(minX+i, minY + i, tmpPoint);
-	}
+		imagePixel.setPointValue(minX + 1, minY, tmpPoint);
+		imagePixel.setPointValue(minX + 1, minY + 1, tmpPoint);
+		imagePixel.setPointValue(minX, minY + 1, tmpPoint);
+	
 	imagePixel.showImage();
 }
