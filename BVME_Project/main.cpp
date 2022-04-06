@@ -14,7 +14,11 @@ int main()
 	while(exit==false){
 	std::cout << "Select exercise\n"<<
 		"1: gray value image, binary image, max and min gray value\n"<<
-		"2: \n"
+		"2: Histogram linearization\n"
+		"3: blur, sharpness filter\n"
+		"4: high-pass filter, low-pass filter, gaussian filter\n"
+		"5: adaptive median filter\n"
+		"6: Histogram linearization in RGB"
 		"7: Exit\n";
 
 
@@ -26,19 +30,19 @@ int main()
 		exercise(); //gray value image, binary image, max and min gray value
 		break;
 	case 2:
-		exercise2();
+		exercise2(); //Histogram linearization
 		break;
 	case 3:
-		exercise3();
+		exercise3(); //blur, sharpness filter
 		break;
 	case 4:
-		exercise4();
+		exercise4();//high-pass filter, low-pass filter, gaussian filter
 		break;
 	case 5:
-		exercise5();
+		exercise5();//adaptive median filter
 		break;
 	case 6:
-		exercise6(); //Histogrammlinearisierung in RGB TODO
+		exercise6(); //Histogram linearization in RGB
 		break;
 	case 7:
 		exit = true;

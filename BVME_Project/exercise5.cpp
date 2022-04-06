@@ -36,7 +36,7 @@ void exercise5() {
 	bool abort = true;
 	int index = 0;
 
-	CImage medianImage(m, n, true); //leeres Grauwertbild
+	CImage medianImage(m, n, true); //empty gray value image
 
 	CColor tmpPoint(0);
 	for (int i = 0; i < 49; i++)
@@ -61,13 +61,12 @@ void exercise5() {
 					}
 
 				}
-				for (int k = index; k < 49; k++) //Auffuellen des restlichen Arrays mit zu grossen Werten 
+				for (int k = index; k < 49; k++) //Padding the remaining array with values that are too large 
 				{
 					array[k] = 1000;
 				}
 
-				measure(array, windowSize); // min, med, max berechnen
-
+				measure(array, windowSize); //calculate min, med, max 
 
 				a1 = med - min;
 				a2 = med - max;
@@ -106,7 +105,5 @@ void exercise5() {
 			abort = true;
 		}
 	}
-	medianImage.showImage("adaptives Medianfilter");
-	system("pause");
-
+	medianImage.showImage("adaptive median filter");
 }

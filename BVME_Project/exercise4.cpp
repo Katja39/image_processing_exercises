@@ -13,10 +13,10 @@ void exercise4() {
 	int n = image_grey.getWidth();
 	int radius = 50;
 
-	//Fouriertransformation
+	//fourier transform
 	imageRoseLowPassFilter = image_grey.FourierTransformation(false);
 	
-	//Idealer Tiefpassfilter
+	//ideal low-pass filter
 	for (int x = 0; x < m; x++)
 	{
 		for (int y = 0; y < n; y++)
@@ -29,12 +29,12 @@ void exercise4() {
 			
 		}
 	}
-	imageRoseLowPassFilter.showImage();
-	//inverse Fouriertransformation
+	imageRoseLowPassFilter.showImage("fourier transform, ideal low-pass filter");
+	//inverse Fourier transform
 	imageRoseLowPassFilter = imageRoseLowPassFilter.FourierTransformation(true);
-	imageRoseLowPassFilter.showImage("Idealer Tiefpassfilter");
+	imageRoseLowPassFilter.showImage("Ideal low-pass filter");
 	
-	//Idealer Hochpassfilter
+	//ideal high-pass filter
 	imageRoseLowPassFilter = image_grey;
 	imageRoseLowPassFilter = image_grey.FourierTransformation(false);
 
@@ -50,13 +50,13 @@ void exercise4() {
 
 		}
 	}
-	imageRoseLowPassFilter.showImage();
-	//inverse Fouriertransformation
+	imageRoseLowPassFilter.showImage("fourier transform, ideal high-pass filter");
+
+	//inverse Fourier transform
 	imageRoseLowPassFilter = imageRoseLowPassFilter.FourierTransformation(true);
-	imageRoseLowPassFilter.showImage("Idealer Hochpassfilter");
+	imageRoseLowPassFilter.showImage("Ideal high-pass filter");
 
-
-	//Gauß Tiefpassfilter
+	//low-pass gaussian filter
 	CImage imageRoseLowPassFilterGauss = image_grey;
 	imageRoseLowPassFilterGauss = image_grey.FourierTransformation(false);
 	float d= 0.0;
@@ -78,12 +78,12 @@ void exercise4() {
 			imageRoseLowPassFilterGauss.setComplexPointValue(x, y, value);
 		}
 	}
-	imageRoseLowPassFilterGauss.showImage();
+	imageRoseLowPassFilterGauss.showImage("fourier transform, low-pass gaussian filter");
 	imageRoseLowPassFilterGauss = imageRoseLowPassFilterGauss.FourierTransformation(true);
-	imageRoseLowPassFilterGauss.showImage("Gaußscher Tiefpassfilter");
+	imageRoseLowPassFilterGauss.showImage("low-pass gaussian filter");
 
 
-	//Gauß Hochpassfilter
+	//low-pass gaussian filter
 	CImage imageRoseHighPassFilterGauss = image_grey;
 	imageRoseHighPassFilterGauss = image_grey.FourierTransformation(false);
 	d = 0.0;
@@ -94,7 +94,7 @@ void exercise4() {
 		for (int y = 0; y < n; y++)
 		{
 			d = pow(x - m / 2, 2) + pow(y - n / 2, 2);
-			h = 2 - exp(-d / (2 * pow(radius, 2))); //1- = Kantenbild, 2- = geschärftes Bild
+			h = 2 - exp(-d / (2 * pow(radius, 2))); //1- = image of the edges, 2- = sharpened image
 			value = imageRoseHighPassFilterGauss.getComplexPointValue(x, y);
 			real = value.real();
 			imag = value.imag();
@@ -103,7 +103,7 @@ void exercise4() {
 			imageRoseHighPassFilterGauss.setComplexPointValue(x, y, value);
 		}
 	}
-	imageRoseHighPassFilterGauss.showImage();
+	imageRoseHighPassFilterGauss.showImage("fourier transform, high-pass gaussian filter");
 	imageRoseHighPassFilterGauss = imageRoseHighPassFilterGauss.FourierTransformation(true);
-	imageRoseHighPassFilterGauss.showImage("Gaußscher Hochpassfilter");
+	imageRoseHighPassFilterGauss.showImage("high-pass gaussian filter");
 }

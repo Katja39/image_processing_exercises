@@ -14,9 +14,9 @@ void exercise3() {
 	int imageWidth = imageMoonBlur.getWidth();
 
 	float greyvalue=0.0;
-	float gesamt= 0.0;
-	float maskengroesse = 49;
-	float element = sqrt(maskengroesse);
+	float sum= 0.0;
+	float maskSize = 49;
+	float element = sqrt(maskSize);
 	int positionWidth=0;
 	int positionHeight=0;
 	CColor tmpPoint(0);
@@ -24,34 +24,33 @@ void exercise3() {
 	int verschiebenN=0;
 	int verschiebenI=0;
 
-	//Weichzeichner
+	//Blur
 
-	for (size_t x = 0; x < imageHeight-element; x++)//Hoehe
+	for (size_t x = 0; x < imageHeight-element; x++)//height
 	{
-		for (size_t y = 0; y < imageWidth-element; y++)//Breite
+		for (size_t y = 0; y < imageWidth-element; y++)//width
 		{
 			for (size_t i = 0; i < element; i++)
 			{
 				for (size_t n = 0; n < element; n++)
 				{
 					greyvalue = imageCopy.getPointValue(i+x,n+y).getGrey();
-					gesamt += 1.0/maskengroesse * greyvalue;
+					sum += 1.0/maskSize * greyvalue;
 					if (i == 1 && n == 1) {
 						positionHeight = i+x;
 						positionWidth = n+y;
 					}
 				}
 			}
-			tmpPoint.setGrey(gesamt);
+			tmpPoint.setGrey(sum);
 			imageMoonBlur.setPointValue(positionHeight, positionWidth, tmpPoint);
-			gesamt = 0;
+			sum = 0;
 		}
 	}
 	imageMoonBlur.showImage();
 
-
 	
-	//Schärfefilter
+	//sharpness filter
 	
 	CImage imageMoon("Images/mond.bmp");
 	imageMoon = imageMoon.getGreyscaleImage();

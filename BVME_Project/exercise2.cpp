@@ -16,10 +16,10 @@ void exercise2() {
 	int red;
 	int blue;
 	int green;
-	int gesamt=0;
+	int sum=0;
 	double mean = 0;
 
-	int mSmallCounter = 0;//Anzahl mSmall
+	int mSmallCounter = 0;//number of mSmall
 	int mSmallGesamt = 0;
 	double mSmallMean = 0;
 
@@ -36,12 +36,12 @@ void exercise2() {
 			green = imageText.getPointValue(i, n).getGreen();
 			blue = imageText.getPointValue(i, n).getBlue();
 			greyvalue = (red + green + blue) / 3;
-			gesamt += greyvalue;
+			sum += greyvalue;
 		}
 	}
-	mean = gesamt / (imageHeight * imageWidth); //Mittelwert aller Grauwerte
+	mean = sum / (imageHeight * imageWidth); //mean value of all gray values
 
-	//2. Mengen mSmall und mBig
+	//2. set mSmall and mBig
 
 	double mNew = 0;
 	double mOld = 255;
@@ -76,19 +76,21 @@ void exercise2() {
 
 		}
 	}
-	//3.
+	//3.mean value of mSmall and mBig
 	mSmallMean = mSmallGesamt / mSmallCounter;
 	mBigMean = mBigGesamt / mBigCounter;
 	//4.
 	mNew = (mSmallMean + mBigMean) / 2;
 	loopCounter++;
-	std::cout << "Durchgang "<<loopCounter<<": m="<<mNew<<"\n";
+	std::cout << "round "<<loopCounter<<": m="<<mNew<<"\n";
 	if (mOld - mNew < 1) {
 		x = 1;
 	}
 	mean = mNew;
 	mOld = mNew;
 	} while (x ==0);
+
+	std::cout << "\n";
 
 	//5.
 	for (int i = 0; i < imageHeight; i++)
@@ -99,7 +101,7 @@ void exercise2() {
 			green = imageText.getPointValue(i, n).getGreen();
 			blue = imageText.getPointValue(i, n).getBlue();
 			greyvalue = (red + green + blue) / 3;
-			gesamt += greyvalue;
+			sum += greyvalue;
 			if (greyvalue >= mNew) {
 				tmpPoint.setRed(255);
 				tmpPoint.setGreen(255);
@@ -118,20 +120,20 @@ void exercise2() {
 	}
 	//imageText.showImage();
 
-	//Aufgabe 2
-	//Histogramm
-	CImage imageHistogramm("Images/rose_flau.bmp");
-	imageHeight = imageHistogramm.getHeight();
-	imageWidth = imageHistogramm.getWidth();
-	int histogramm[255];//Position,Anzahl
-	float histogrammKumuliert[255];
+	//Task 2
+	//Histogram
+	CImage imageHistogram("Images/rose_flau.bmp");
+	imageHeight = imageHistogram.getHeight();
+	imageWidth = imageHistogram.getWidth();
+	int histogramm[255];//Position,Number
+	float cumulativeHistogram[255];
 	int wertegesamt = 0;;
 	x = 0;
 
 	for (int i = 0; i < 255; i++)
 	{
 		histogramm[i] = 0;
-		histogrammKumuliert[i] = 0;
+		cumulativeHistogram[i] = 0;
 	}
 
 	for (int i = 0; i < imageHeight; i++)
@@ -139,9 +141,9 @@ void exercise2() {
 		for (int n = 0; n < imageWidth; n++)
 		{
 			x = 0;
-			red = imageHistogramm.getPointValue(i, n).getRed();
-			green = imageHistogramm.getPointValue(i, n).getGreen();
-			blue = imageHistogramm.getPointValue(i, n).getBlue();
+			red = imageHistogram.getPointValue(i, n).getRed();
+			green = imageHistogram.getPointValue(i, n).getGreen();
+			blue = imageHistogram.getPointValue(i, n).getBlue();
 			greyvalue = (red + green + blue) / 3;
 			do {
 				if (x == greyvalue) {
@@ -155,22 +157,22 @@ void exercise2() {
 	}
 	x = 0;
 	do {
-		std::cout <<"Histogramm: \n" << x << " -> " << histogramm[x] << "\n";//Histogramm normal
+		std::cout <<"Histogram: \n" << x << " -> " << histogramm[x] << "\n";//Histogram normal
 		x++;
 	} while (x < 255);
 
-	//Histogramm kumuliert
-	std::cout << "Histogramm kumuliert";
+	//cumulative Histogram 
+	std::cout << "cumulative Histogram\n";
 	for (int i = 0; i < 255; i++)
 	{
 
 		if (i > 0) {
-			histogrammKumuliert[i] =histogrammKumuliert[i-1]+ histogramm[i];
+			cumulativeHistogram[i] =cumulativeHistogram[i-1]+ histogramm[i];
 		}
 		else {
-			histogrammKumuliert[i] += histogramm[i];
+			cumulativeHistogram[i] += histogramm[i];
 		}
-		//std::cout <<"Position: "<<i <<" "<< histogrammKumuliert[i] << "\n";
+		//std::cout <<"Position: "<<i <<" "<< cumulativeHistogram[i] << "\n";
 	}
 	
 	float newGreyValue=0;
@@ -179,21 +181,21 @@ void exercise2() {
 	{
 		for (int n = 0; n < imageWidth; n++)
 		{
-			red = imageHistogramm.getPointValue(i, n).getRed();
-			green = imageHistogramm.getPointValue(i, n).getGreen();
-			blue = imageHistogramm.getPointValue(i, n).getBlue();
+			red = imageHistogram.getPointValue(i, n).getRed();
+			green = imageHistogram.getPointValue(i, n).getGreen();
+			blue = imageHistogram.getPointValue(i, n).getBlue();
 			greyvalue = (red + green + blue) / 3;
-			newGreyValue = (histogrammKumuliert[greyvalue] / wertegesamt) * 255;
+			newGreyValue = (cumulativeHistogram[greyvalue] / wertegesamt) * 255;
 
-			//std::cout << "NeuerGrauwert an Position: "<<greyvalue <<" = "<<newGreyValue<< "\n";
+			//std::cout << "New grey value at position: "<<greyvalue <<" = "<<newGreyValue<< "\n";
 
 			tmpPoint.setRed(newGreyValue);
 			tmpPoint.setGreen(newGreyValue);
 			tmpPoint.setBlue(newGreyValue);
 
-			imageHistogramm.setPointValue(i, n, tmpPoint);
+			imageHistogram.setPointValue(i, n, tmpPoint);
 		}
 	}
-	imageHistogramm.showImage();
+	imageHistogram.showImage();
 
 }

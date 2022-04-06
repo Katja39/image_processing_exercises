@@ -4,17 +4,18 @@
 
 using namespace bvme;
 
-void exercise6() { //Histogrammlinearisierung in RGB
-	//Farbbild -> 3 Grauwertbilder
+void exercise6() {
 	CImage image("Images/rose_rgb_flau.bmp");
 
-	int redValue[255] = { 0 };
-	int greenValue[255] = { 0 };
-	int blueValue[255] = { 0 };
+	std::cout << "Histogram linearization is not recommended in RGB because the color changes.\n";
 
-	float redValueSum[255] = { 0 };
-	float greenValueSum[255] = { 0 };
-	float blueValueSum[255] = { 0 };
+	int redValue[256] = { 0 };
+	int greenValue[256] = { 0 };
+	int blueValue[256] = { 0 };
+
+	float redValueSum[256] = { 0 };
+	float greenValueSum[256] = { 0 };
+	float blueValueSum[256] = { 0 };
 
 	int red = 0;
 	int green = 0;
@@ -25,7 +26,7 @@ void exercise6() { //Histogrammlinearisierung in RGB
 	
 	CColor Color = image.getPointValue(1, 1);
 
-	image.showImage();
+	image.showImage("original image");
 
 	for (int i = 0; i < imageWidth; i++)
 	{
@@ -37,11 +38,11 @@ void exercise6() { //Histogrammlinearisierung in RGB
 			
 			redValue[red] += 1;
 			greenValue[green] += 1;
-			blueValue[green] += 1;
+			blueValue[blue] += 1;
 		}
 	}
 
-	for (int i = 0; i < 255; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		for (int n = 0; n <= i; n++)
 		{
@@ -51,33 +52,26 @@ void exercise6() { //Histogrammlinearisierung in RGB
 		}
 	}
 
-	for (int i = 0; i < 255; i++)
+	double widthHeight = (double)image.getWidth() * (double)image.getHeight();
+
+	for (int x = 0; x < image.getHeight(); x++)
 	{
-		redValueSum[i] = redValueSum[i] / imageWidth * imageHeight;
-		redValueSum[i]   = redValueSum[i] *255;
-
-		greenValueSum[i] = greenValueSum[i] / imageWidth * imageHeight;
-		greenValueSum[i] = greenValueSum[i] * 255;
-
-		blueValueSum[i] = blueValueSum[i] / imageWidth * imageHeight;
-		blueValueSum[i]  = blueValueSum[i] * 255;
-	}
-
-
-for (int i = 0; i < imageWidth; i++)
-	{
-		for (int n = 0; n < imageHeight; n++)
+		for (int y = 0; y < image.getWidth(); y++)
 		{
-			red = image.getPointValue(n,i).getRed();
-			green = image.getPointValue(n, i).getGreen();
-			blue = image.getPointValue(n, i).getBlue();
+			CColor color = image.getPointValue(x, y);
 
-			Color.setRed(redValueSum[red]);
-			Color.setGreen(redValueSum[green]);
-			Color.setBlue(redValueSum[blue]);
+			int redValue = 255 * ((double)redValueSum[color.getRed()] / widthHeight);
+			int greenValue = 255 * ((double)greenValueSum[color.getGreen()] / widthHeight);
+			int blueValue = 255 * ((double)blueValueSum[color.getBlue()] / widthHeight);
 
-			image.setPointValue(n, i, Color);
+			color.setRed(redValue);
+			color.setGreen(greenValue);
+			color.setBlue(blueValue);
+
+			image.setPointValue(x, y, color);
 		}
 	}
-	image.showImage();
+
+	image.showImage("changed image, wrong color");
+	std::cout << "\n";
 }
